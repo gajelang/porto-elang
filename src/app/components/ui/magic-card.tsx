@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue } from "motion/react";
+import { motion, useMotionValue } from "framer-motion"; // Use framer-motion instead of motion/react
 import React, { useCallback, useEffect, useRef } from "react";
-
 import { cn } from "@/lib/utils";
 
 interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -83,22 +82,14 @@ export function MagicCard({
       <motion.div
         className="pointer-events-none absolute inset-px z-10 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: useMotionTemplate`
-            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
-          `,
+          background: `radial-gradient(${gradientSize}px circle at ${mouseX.get()}px ${mouseY.get()}px, ${gradientColor}, transparent 100%)`,
           opacity: gradientOpacity,
         }}
       />
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-xl bg-border duration-300 group-hover:opacity-100"
         style={{
-          background: useMotionTemplate`
-            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-              ${gradientFrom}, 
-              ${gradientTo}, 
-              hsl(var(--border)) 100%
-            )
-          `,
+          background: `radial-gradient(${gradientSize}px circle at ${mouseX.get()}px ${mouseY.get()}, ${gradientFrom}, ${gradientTo}, hsl(var(--border)) 100%)`,
         }}
       />
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import Image from "next/image";
 import { ShinyButton } from "./ui/shiny-button";
@@ -39,20 +39,8 @@ export function HeroSection() {
       <motion.div
         className="pointer-events-none bg-dot-thick-indigo-500 dark:bg-dot-thick-indigo-500 absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
         style={{
-          WebkitMaskImage: useMotionTemplate`
-            radial-gradient(
-              200px circle at ${mouseX}px ${mouseY}px,
-              black 0%,
-              transparent 100%
-            )
-          `,
-          maskImage: useMotionTemplate`
-            radial-gradient(
-              200px circle at ${mouseX}px ${mouseY}px,
-              black 0%,
-              transparent 100%
-            )
-          `,
+          WebkitMaskImage: `radial-gradient(200px circle at ${mouseX.get()}px ${mouseY.get()}px, black 0%, transparent 100%)`,
+          maskImage: `radial-gradient(200px circle at ${mouseX.get()}px ${mouseY.get()}px, black 0%, transparent 100%)`,
         }}
       />
 

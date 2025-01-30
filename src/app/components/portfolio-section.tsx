@@ -200,52 +200,44 @@ export function PortfolioSection() {
         <AnimatePresence>
           {selectedProject && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md"
-              onClick={() => setSelectedProject(null)}
-            >
-              <motion.div
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.9 }}
-                className="bg-card p-6 rounded-lg max-w-4xl w-full mx-4 relative outline outline-2 outline-primary max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button onClick={() => setSelectedProject(null)} className="absolute top-4 right-4">
-                  <X className="w-6 h-6" />
-                </button>
-                <h3 className="text-2xl font-bold mb-4">{selectedProject.title}</h3>
-                <p className="mb-4 whitespace-pre-line">{selectedProject.description}</p>
-
-                {/* Scrollable Images Section */}
-                <div className="overflow-y-auto">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {selectedProject.images.map((image, index) => (
-                      <div key={index} className="mb-4">
-                        <Image
-                          src={image}
-                          alt={`${selectedProject.title} - Image ${index + 1}`}
-                          width={600}
-                          height={400}
-                          className="w-full rounded-lg"
-                        />
-                      </div>
-                    ))}
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0.9 }}
+            className="bg-card p-6 rounded-lg max-w-4xl w-full mx-4 relative outline outline-2 outline-primary max-h-[90vh] overflow-y-auto"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()} // Explicitly type the event
+          >
+            <button onClick={() => setSelectedProject(null)} className="absolute top-4 right-4">
+              <X className="w-6 h-6" />
+            </button>
+            <h3 className="text-2xl font-bold mb-4">{selectedProject.title}</h3>
+            <p className="mb-4 whitespace-pre-line">{selectedProject.description}</p>
+          
+            {/* Scrollable Images Section */}
+            <div className="overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {selectedProject.images.map((image, index) => (
+                  <div key={index} className="mb-4">
+                    <Image
+                      src={image}
+                      alt={`${selectedProject.title} - Image ${index + 1}`}
+                      width={600}
+                      height={400}
+                      className="w-full rounded-lg"
+                    />
                   </div>
-                </div>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 my-4">
-                  {selectedProject.technologies.map((tech) => (
-                    <span key={tech} className="px-3 bg-gray-900 py-1 rounded-full text-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.div>
+                ))}
+              </div>
+            </div>
+          
+            {/* Technologies */}
+            <div className="flex flex-wrap gap-2 my-4">
+              {selectedProject.technologies.map((tech) => (
+                <span key={tech} className="px-3 bg-gray-900 py-1 rounded-full text-sm">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
           )}
         </AnimatePresence>
       </div>

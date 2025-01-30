@@ -206,7 +206,7 @@ const ServiceCard = ({ service, index, handleContact }: ServiceCardProps) => (
       className="flex flex-col gap-4 md:gap-6 h-full p-6 md:p-8"
     >
       <div className="rounded-xl w-fit">
-        <service.icon className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+        <service.icon/>
       </div>
 
       <div className="space-y-2 md:space-y-4 flex-1">
@@ -267,7 +267,7 @@ const MobileServiceCard = ({ service, index, handleContact, theme }: MobileServi
     >
       <div className="flex flex-col gap-4 h-full p-6">
         <div className="rounded-xl w-fit">
-          <service.icon className="w-6 h-6 text-primary" />
+          <service.icon/>
         </div>
 
         <div className="space-y-2 flex-1">
