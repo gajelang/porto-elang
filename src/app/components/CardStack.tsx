@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-let interval: any;
+let interval: NodeJS.Timeout; // Use NodeJS.Timeout for Node.js environments
 
 type Card = {
   id: number;
@@ -29,7 +29,7 @@ export const CardStack = ({
   useEffect(() => {
     startFlipping();
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clear the interval on unmount
   }, []);
 
   const startFlipping = () => {

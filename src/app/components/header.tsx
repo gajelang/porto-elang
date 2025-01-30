@@ -7,7 +7,7 @@ import {
   useSpring,
 } from "framer-motion";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, ElementType, MouseEvent } from "react";
 import { Home, User, Briefcase, Settings, Mail, Linkedin } from "lucide-react";
 import { MotionValue } from "framer-motion";
 
@@ -54,7 +54,6 @@ const contactItems = [
       </svg>
     ),
   },
-  // Tambahkan email baru di sini
   {
     name: "Email",
     href: "mailto:elangsamudra.work@gmail.com",
@@ -81,7 +80,7 @@ const FloatingDockDesktop = ({
 
   return (
     <motion.div
-      onMouseMove={(e: { pageX: any; }) => mouseX.set(e.pageX)}
+      onMouseMove={(e: MouseEvent) => mouseX.set(e.pageX)} // Use MouseEvent type
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
         "hidden md:flex h-16 items-center rounded-2xl bg-gray-50/80 dark:bg-neutral-900/80 backdrop-blur-sm px-6 shadow-lg gap-6",
@@ -93,7 +92,6 @@ const FloatingDockDesktop = ({
           <IconContainer 
             mouseX={mouseX} 
             key={item.name} 
-            title={item.name} 
             href={item.href} 
             icon={item.icon} 
           />
@@ -108,7 +106,6 @@ const FloatingDockDesktop = ({
             key={item.name}
             href={item.href}
             icon={item.icon}
-            name={item.name}
           />
         ))}
       </div>
@@ -116,15 +113,13 @@ const FloatingDockDesktop = ({
   );
 };
 
-function IconContainer({ mouseX, title, href, icon: Icon }: {
+function IconContainer({ mouseX, href, icon: Icon }: {
   mouseX: MotionValue<number>;
-  title: string;
   href: string;
-  icon: any;
+  icon: ElementType;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   
-  // Animasi untuk hover effect
   const distance = useTransform(mouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
@@ -138,6 +133,7 @@ function IconContainer({ mouseX, title, href, icon: Icon }: {
         ref={ref}
         style={{ width }}
         className="flex items-center justify-center h-12 rounded-full bg-gray-200/80 dark:bg-neutral-800/80 backdrop-blur-sm relative"
+        aria-label={href.replace("#", "")} // Add aria-label for accessibility
       >
         <Icon className="h-5 w-5 text-neutral-700 dark:text-neutral-300" />
       </motion.div>
@@ -145,10 +141,9 @@ function IconContainer({ mouseX, title, href, icon: Icon }: {
   );
 }
 
-const ContactIcon = ({ href, icon: Icon, name }: {
+const ContactIcon = ({ href, icon: Icon }: {
   href: string;
-  icon: any;
-  name: string;
+  icon: ElementType;
 }) => {
   return (
     <motion.a
@@ -158,6 +153,7 @@ const ContactIcon = ({ href, icon: Icon, name }: {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className="flex items-center justify-center h-12 w-12 rounded-full bg-gray-200/80 dark:bg-neutral-800/80 backdrop-blur-sm"
+      aria-label={href} // Add aria-label for accessibility
     >
       <Icon className="h-5 w-5 text-neutral-700 dark:text-neutral-300" />
     </motion.a>

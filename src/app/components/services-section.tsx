@@ -8,7 +8,16 @@ import { Palette, Smartphone, Layout, PenTool, MonitorSmartphone, Check } from "
 import { MagicCard } from "./ui/magic-card"
 import { useTheme } from "next-themes"
 
-const services = [
+type Service = {
+  icon: React.ComponentType;
+  title: string;
+  description: string;
+  features: string[];
+  isPopular?: boolean;
+  deliveryTime: string;
+};
+
+const services: Service[] = [
   {
     icon: Palette,
     title: "Graphic Design",
@@ -81,10 +90,7 @@ export function ServicesSection() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Deteksi ukuran layar awal
     setIsMobile(window.innerWidth < 768);
-    
-    // Handler untuk resize
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -145,7 +151,6 @@ export function ServicesSection() {
           <p className="text-base md:text-lg">Premium solutions for your digital needs</p>
         </motion.div>
 
-        {/* Mobile view */}
         {isMobile ? (
           <div className="flex flex-col gap-8 md:hidden">
             {services.map((service, index) => (
@@ -180,7 +185,13 @@ export function ServicesSection() {
   );
 }
 
-const ServiceCard = ({ service, index, handleContact }: any) => (
+interface ServiceCardProps {
+  service: Service;
+  index: number;
+  handleContact: (serviceTitle: string) => void;
+}
+
+const ServiceCard = ({ service, index, handleContact }: ServiceCardProps) => (
   <MagicCard
     className="w-[300px] md:w-[380px] shrink-0 cursor-pointer shadow-xl md:shadow-2xl"
     gradientColor={useTheme().theme === 'dark' ? '#262626' : '#D9D9D955'}
@@ -204,7 +215,7 @@ const ServiceCard = ({ service, index, handleContact }: any) => (
       </div>
 
       <div className="flex-1 space-y-2 md:space-y-3 my-2 md:my-4">
-        {service.features.map((feature: string, idx: number) => (
+        {service.features.map((feature, idx) => (
           <div key={idx} className="flex items-center gap-2">
             <Check className="w-4 h-4 md:w-5 md:h-5 text-primary" />
             <span className="text-sm md:text-base">{feature}</span>
@@ -234,7 +245,14 @@ const ServiceCard = ({ service, index, handleContact }: any) => (
   </MagicCard>
 );
 
-const MobileServiceCard = ({ service, index, handleContact, theme }: any) => (
+interface MobileServiceCardProps {
+  service: Service;
+  index: number;
+  handleContact: (serviceTitle: string) => void;
+  theme: string | undefined;
+}
+
+const MobileServiceCard = ({ service, index, handleContact, theme }: MobileServiceCardProps) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -258,7 +276,7 @@ const MobileServiceCard = ({ service, index, handleContact, theme }: any) => (
         </div>
 
         <div className="flex-1 space-y-2 my-2">
-          {service.features.map((feature: string, idx: number) => (
+          {service.features.map((feature, idx) => (
             <div key={idx} className="flex items-center gap-2">
               <Check className="w-4 h-4 text-primary" />
               <span className="text-sm">{feature}</span>

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Code, Layout, Palette, Smartphone, PenTool, Users } from "lucide-react";
+import { Code, Layout, Palette, Smartphone, PenTool } from "lucide-react";
 import { CardStack } from "./CardStack"; // Sesuaikan dengan path yang benar
 
 // Skills Data for CardStack
@@ -113,11 +113,11 @@ export function AboutSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl md:text-6xl font-bold">Hi, I'm Elang</h3>
+              <h3 className="text-3xl md:text-6xl font-bold">Hi, I&apos;m Elang</h3>
             </div>
 
-            <p className=" text-center md:text-left text-sm md:text-base mb-6">
-              I'm a passionate developer and designer with over 5 years of experience in creating 
+            <p className="text-center md:text-left text-sm md:text-base mb-6">
+              I&apos;m a passionate developer and designer with over 5 years of experience in creating 
               beautiful and functional digital experiences. Specializing in social media design, graphic design, web development, 
               UI/UX design, and engaging interfaces!
             </p>
@@ -143,9 +143,11 @@ export function AboutSection() {
           <div className="md:hidden grid grid-cols-3 sm:grid-cols-4 gap-4">
             {tools.map((tool, index) => (
               <div key={index} className="flex flex-col items-center p-2">
-                <img
+                <Image
                   src={tool.icon}
                   alt={tool.name}
+                  width={40}
+                  height={40}
                   className="w-10 h-10 md:w-12 md:h-12 object-contain"
                 />
                 <span className="text-xs text-center mt-2">{tool.name}</span>
@@ -171,9 +173,11 @@ export function AboutSection() {
                   key={index} 
                   className="flex items-center gap-2 shrink-0 pr-8 border-r border-muted"
                 >
-                  <img
+                  <Image
                     src={tool.icon}
                     alt={tool.name}
+                    width={32}
+                    height={32}
                     className="w-8 h-8 object-contain"
                   />
                   <span className="text-base font-medium whitespace-nowrap">
