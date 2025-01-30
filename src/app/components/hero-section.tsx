@@ -2,7 +2,6 @@
 
 import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import CountUp from "react-countup";
 import Image from "next/image";
 import { ShinyButton } from "./ui/shiny-button";
 
@@ -28,16 +27,6 @@ export function HeroSection() {
       contactSection.scrollIntoView({ behavior: "smooth" });
     }
   };
-
-  const achievements = [
-    { value: 2880, suffix: "+", label: "Instagram Posts" },
-    { value: 144, suffix: "M+", label: "Accounts Reached" },
-    { value: 4, suffix: "+", label: "Years of Experience" },
-    { value: 100, suffix: "K+", label: "Followers Gained" },
-    { value: 200, suffix: "M+", label: "Impressions" },
-    { value: 5, suffix: "+", label: "Front End Projects" },
-    { value: 10, suffix: "+", label: "UI/UX Projects" },
-  ];
 
   return (
     <section

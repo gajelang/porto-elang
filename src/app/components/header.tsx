@@ -1,15 +1,14 @@
 "use client";
-
 import {
   motion,
   useMotionValue,
   useTransform,
   useSpring,
+  type MotionValue,
 } from "framer-motion";
 import Link from "next/link";
 import { useRef, ElementType, MouseEvent } from "react";
 import { Home, User, Briefcase, Settings, Mail, Linkedin } from "lucide-react";
-import { MotionValue } from "framer-motion";
 
 const navItems = [
   { name: "Home", href: "#home", icon: Home },

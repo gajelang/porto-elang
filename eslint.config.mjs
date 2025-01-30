@@ -12,8 +12,8 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
-      'react-hooks/exhaustive-deps': 'warn', // Mengubah level ke warning
-      // atau 'off' jika ingin menonaktifkan
+      "react-hooks/exhaustive-deps": "warn", // Change to warning
+      "@typescript-eslint/no-unused-vars": "warn", // Add this rule
     },
   },
 ];

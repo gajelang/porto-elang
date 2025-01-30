@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import React from "react"; // Ensure React is imported for React.MouseEvent
 
 type Experience = {
   position: string;
@@ -172,7 +173,7 @@ export function CompanyLogo() {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               className="bg-background w-full max-w-full md:max-w-2xl rounded-xl shadow-2xl p-4 md:p-6 relative mx-2 my-4 max-h-[90vh] overflow-y-auto"
-              onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button

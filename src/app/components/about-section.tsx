@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Code, Layout, Palette, Smartphone, PenTool } from "lucide-react";
+import { Code, Layout, Palette, PenTool } from "lucide-react";
 import { CardStack } from "./CardStack"; // Sesuaikan dengan path yang benar
 
 // Skills Data for CardStack
