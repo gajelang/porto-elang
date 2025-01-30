@@ -1,0 +1,209 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+  /* Hanya dark theme yang didefinisikan */
+  :root {
+    --background: 0 0% 0%; /* Warna latar belakang (hitam) */
+    --foreground: 255 255 255; /* Warna teks (putih) */
+    --card: 0 0% 3.9%; /* Warna kartu */
+    --card-foreground: 255 255 255; /* Warna teks kartu */
+    --popover: 0 0% 3.9%; /* Warna popover */
+    --popover-foreground: 255 255 255; /* Warna teks popover */
+    --primary: 255 255 255; /* Warna primer */
+    --primary-foreground: 0 0% 0%; /* Warna teks primer */
+    --secondary: 0 0% 14.9%; /* Warna sekunder */
+    --secondary-foreground: 255 255 255; /* Warna teks sekunder */
+    --muted: 0 0% 14.9%; /* Warna muted */
+    --muted-foreground: 200 200 200; /* Warna teks muted */
+    --accent: 0 0% 14.9%; /* Warna aksen */
+    --accent-foreground: 255 255 255; /* Warna teks aksen */
+    --destructive: 0 0% 30.6%; /* Warna destruktif */
+    --destructive-foreground: 255 255 255; /* Warna teks destruktif */
+    --border: 0 0% 14.9%; /* Warna border */
+    --input: 0 0% 14.9%; /* Warna input */
+    --ring: 0 0% 83.1%; /* Warna ring */
+    --chart-1: 220 70% 50%; /* Warna chart 1 */
+    --chart-2: 160 60% 45%; /* Warna chart 2 */
+    --chart-3: 30 80% 55%; /* Warna chart 3 */
+    --chart-4: 280 65% 60%; /* Warna chart 4 */
+    --chart-5: 340 75% 55%; /* Warna chart 5 */
+    --radius: 0.5rem; /* Border radius */
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md transition-all duration-300 ease-in-out;
+  }
+  .btn-primary {
+    @apply bg-orange-500 text-white hover:bg-orange-600;
+  }
+  .btn-secondary {
+    @apply bg-transparent border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white;
+  }
+}
+
+/* Gaya scrollbar untuk browser WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px; /* Lebar scrollbar */
+  height: 6px; /* Tinggi scrollbar (untuk scrollbar horizontal) */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Latar belakang track scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3); /* Warna thumb scrollbar dengan opacity kecil */
+  border-radius: 3px; /* Membuat thumb scrollbar sedikit melengkung */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5); /* Warna thumb scrollbar saat dihover */
+}
+
+/* Gaya scrollbar untuk Firefox */
+* {
+  scrollbar-width: thin; /* Lebar scrollbar */
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* Warna thumb dan track scrollbar */
+}
+
+/* Efek hover pada kartu */
+.card-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-content {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.card-container:hover .card-content {
+  transform: translateY(-20px); /* Geser konten ke atas saat hover */
+}
+
+.view-project-button {
+  position: absolute;
+  bottom: -50px; /* Tombol awalnya tersembunyi di bawah kartu */
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.8); /* Latar belakang semi-transparan */
+  transition: bottom 0.3s ease;
+  opacity: 0; /* Tombol awalnya tidak terlihat */
+}
+
+.card-container:hover .view-project-button {
+  bottom: 0; /* Munculkan tombol saat hover */
+  opacity: 1; /* Buat tombol terlihat */
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: black;
+}
+
+.badge {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-developer {
+  @apply bg-cyan-500/20 text-cyan-400;
+}
+
+.badge-designer {
+  @apply bg-pink-500/20 text-pink-400;
+}
+
+.badge-manager {
+  @apply bg-green-500/20 text-green-400;
+}
+
+.badge-user {
+  @apply bg-blue-500/20 text-blue-400;
+}
+
+.feature-card {
+  @apply bg-zinc-900/50 backdrop-blur-sm rounded-2xl p-6;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite; /* Sesuaikan durasi sesuai kebutuhan */
+}
+
+@layer utilities {
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
+  }
+  
+  @keyframes gradient-pulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.no-visible-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-visible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Gradasi abu-abu untuk aksen */
+.gradient-gray {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(50, 50, 50, 1) 50%, rgba(0, 0, 0, 1) 100%);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 20s) linear infinite;
+}
+
+.direction-reverse {
+  animation-direction: reverse;
+}
