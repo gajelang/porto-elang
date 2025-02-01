@@ -58,7 +58,7 @@ export const CardStack = ({
           {/* Icon and Title */}
           <div className="flex flex-col items-center gap-2">
             {card.icon}
-            <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+            <h2 className="text-4xl font-semibold text-neutral-800 dark:text-neutral-200">
               {card.title}
             </h2>
             <h3 className="text-lg text-neutral-600 dark:text-neutral-400">

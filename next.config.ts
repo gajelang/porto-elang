@@ -1,13 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-module.exports = {
   images: {
-    domains: ["images.unsplash.com"], // Add the hostname(s) you're using
+    domains: [
+      "images.unsplash.com",      // Existing domain
+      "assets.vercel.com",        // Existing domain
+      "upload.wikimedia.org",     // Add this line to allow images from upload.wikimedia.org
+    ],
   },
+  // Other config options can go here
 };
 
 export default nextConfig;
