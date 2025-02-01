@@ -119,13 +119,11 @@ export function AboutSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl md:text-6xl font-bold">Hi, I'm Elang</h3>
+              <h3 className="text-3xl md:text-6xl font-bold">Hi, I&apos;m Elang</h3>
             </div>
 
             <p className="text-center md:text-left text-sm md:text-base mb-6">
-              I'm a passionate developer and designer with over 5 years of
-              experience creating engaging and functional digital experiences.
-              Here are some of my primary skills:
+            I&apos;m a passionate developer and designer with over 5 years of experience creating engaging and functional digital experiences.
             </p>
           </motion.div>
 

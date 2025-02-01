@@ -12,7 +12,6 @@ import {
   MonitorSmartphone,
   Check,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 
 /* -------------------------------------------------------------------------------------
    1) TiltedCard Component (INLINE)
@@ -225,7 +224,6 @@ const services: Service[] = [
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { theme } = useTheme();
   const [isMounted, setIsMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
