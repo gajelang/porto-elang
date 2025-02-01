@@ -1,17 +1,97 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   motion,
   useTransform,
   useScroll,
-  MotionValue, // Import MotionValue for type
+  type MotionValue,
 } from "framer-motion";
 import Image from "next/image";
-// Remove X since it's not used
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-/* ------------ Types & Data ------------ */
+/* ----------------------------------------
+   CUSTOM COMPONENT: AnimatedTitle
+---------------------------------------- */
+function AnimatedTitle({
+  text = "My Portfolio",
+  animateBy = "words",
+  direction = "top",
+  delayStep = 1,
+  threshold = 1,
+  rootMargin = "0px",
+}: {
+  text: string;
+  animateBy?: "words" | "letters";
+  direction?: "top" | "bottom";
+  delayStep?: number;
+  threshold?: number;
+  rootMargin?: string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  const elements =
+    animateBy === "words" ? text.split(" ") : text.split("");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold,
+        rootMargin,
+      }
+    );
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [threshold, rootMargin]);
+
+  const variants = {
+    hidden: {
+      opacity: 0,
+      filter: "blur(10px)",
+      y: direction === "top" ? -40 : 40,
+    },
+    visible: (i: number) => ({
+      opacity: 1,
+      filter: "blur(0px)",
+      y: 0,
+      transition: {
+        delay: i * delayStep,
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    }),
+  };
+
+  return (
+    <div ref={containerRef} className="inline-block">
+      {elements.map((item, i) => (
+        <motion.span
+          key={`word-${i}`}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          custom={i}
+          variants={variants}
+          className="inline-block text-white"
+          style={{ whiteSpace: "pre" }}
+        >
+          {item}
+          {animateBy === "words" && i < elements.length - 1 && " "}
+        </motion.span>
+      ))}
+    </div>
+  );
+}
+
+/* ----------------------------------------
+   TYPES & DATA
+---------------------------------------- */
 export interface Project {
   id: number;
   title: string;
@@ -45,8 +125,7 @@ const projects: Project[] = [
     coverImage: "/porto/CCOV.png",
     images: ["/porto/c1.jpg", "/porto/c3.jpg", "/porto/c4.jpg", "/porto/camp1.jpg"],
     description: `Designed monthly campaign posters to promote events and increase participation.
-    Used bold typography and vibrant colors to create impactful visuals.
-    Successfully reached over 10,000 people and enhanced event awareness.`,
+    Used bold typography and vibrant colors to create impactful visuals.`,
     technologies: ["Adobe Photoshop", "Adobe Illustrator"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -70,8 +149,7 @@ const projects: Project[] = [
     coverImage: "/porto/fe--cov.png",
     images: ["/porto/we1.png", "/porto/wfe.png"],
     description: `Developed a responsive and interactive front-end for a corporate website.
-    Utilized HTML, CSS, Tailwind CSS, and Next.js for optimal performance.
-    Increased user engagement by 40% and reduced bounce rate by 25%.`,
+    Utilized HTML, CSS, Tailwind CSS, and Next.js for optimal performance.`,
     technologies: ["HTML", "CSS", "Tailwind CSS", "Next.js"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -83,28 +161,25 @@ const projects: Project[] = [
     coverImage: "/porto/ICO.png",
     images: ["/porto/o1.jpg", "/porto/o2.jpg", "/porto/o3.jpg", "/porto/o4.jpg", "/porto/o5.jpg", "/porto/o6.jpg"],
     description: `Created engaging Instagram content to boost brand awareness and follower growth.
-    Produced high-quality graphics and animations using Canva and Adobe Photoshop.
-    Achieved over 100,000 followers and significantly increased post interactions.`,
+    Produced high-quality graphics and animations using Canva and Adobe Photoshop.`,
     technologies: ["Canva", "Adobe Photoshop"],
     demoUrl: "#",
     sourceUrl: "#",
   },
 ];
 
-/* ------------ Main Component ------------ */
+/* ----------------------------------------
+   MAIN COMPONENT: PortfolioSection
+---------------------------------------- */
 export function PortfolioSection() {
-  // Remove `selectedProject` if not needed:
-  // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 1) Define your ref as usual
-const containerRef = useRef<HTMLDivElement>(null);
-
-// 2) Pass it to useScroll with a type assertion
-const { scrollYProgress } = useScroll({
-  target: containerRef as React.RefObject<HTMLElement>,
-  offset: ["start start", "end end"],
-});
+  // For the scroll-based animation
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef as React.RefObject<HTMLElement>,
+    offset: ["start start", "end end"],
+  });
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
@@ -117,6 +192,7 @@ const { scrollYProgress } = useScroll({
   return (
     <section id="portfolio" className="py-20" ref={containerRef}>
       <div className="container mx-auto px-4">
+        {/* TITLE WITH BLUR ANIMATION */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -124,9 +200,14 @@ const { scrollYProgress } = useScroll({
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-6xl mx-auto md:text-9xl font-bold mb-4 text-white">
-            My Portfolio
-          </h2>
+          <div className="text-5xl md:text-9xl font-bold mb-4">
+            <AnimatedTitle
+              text="My Portfolio"
+              animateBy="words"
+              direction="top"
+              delayStep={0.15}
+            />
+          </div>
           <div className="w-20 bg-primary mx-auto" />
         </motion.div>
 
@@ -147,10 +228,7 @@ const { scrollYProgress } = useScroll({
                 <div
                   className="relative h-full w-full rounded-lg overflow-hidden cursor-pointer"
                   onClick={() => {
-                    /* 
-                      If you want to open a modal:
-                      setSelectedProject(project);
-                    */
+                    // setSelectedProject(project);
                   }}
                 >
                   <Image
@@ -184,6 +262,8 @@ const { scrollYProgress } = useScroll({
         {/* Desktop Card Stack */}
         <div className="hidden md:block">
           {projects.map((project, i) => {
+            // The overall card scale changes, but
+            // we remove the image's scroll-based zoom
             const targetScale = 1 - (projects.length - i) * 0.05;
             return (
               <Card
@@ -205,31 +285,30 @@ const { scrollYProgress } = useScroll({
   );
 }
 
-/* ------------ Card Component (Desktop) ------------ */
+/* ----------------------------------------
+   DESKTOP CARD COMPONENT
+---------------------------------------- */
 interface CardProps {
   i: number;
   project: Project;
-  progress: MotionValue<number>; // replaced 'any' with 'MotionValue<number>'
+  progress: MotionValue<number>;
   range: [number, number];
   targetScale: number;
   onClick: () => void;
 }
 
-const Card = ({ i, project, progress, range, targetScale, onClick }: CardProps) => {
-  // 1) Define your ref as usual
-const containerRef = useRef<HTMLDivElement>(null);
-
-// 2) Pass it to useScroll with a type assertion
-const { scrollYProgress } = useScroll({
-  target: containerRef as React.RefObject<HTMLElement>,
-  offset: ["start start", "end end"],
-});
-
-  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
+function Card({ i, project, progress, range, targetScale, onClick }: CardProps) {
+  // We still use containerRef for sticky scrolling,
+  // but we remove the second useScroll for the image zoom
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Instead, just use the card scale from scroll
   const scale = useTransform(progress, range, [1, targetScale]);
 
   return (
-    <div ref={containerRef} className="h-screen flex items-center justify-center sticky top-0">
+    <div
+      ref={containerRef}
+      className="h-screen flex items-center justify-center sticky top-0"
+    >
       <motion.div
         style={{
           scale,
@@ -239,10 +318,15 @@ const { scrollYProgress } = useScroll({
         onClick={onClick}
       >
         <div className="flex h-full gap-8">
+          {/* Left side: Text & Title */}
           <div className="w-3/4 flex flex-col justify-between">
             <div>
-              <h3 className="text-6xl font-bold text-white mb-4">{project.title}</h3>
-              <p className="text-gray-300 text-xl mb-4">{project.category}</p>
+              <h3 className="text-6xl font-bold text-white mb-4">
+                {project.title}
+              </h3>
+              <p className="text-gray-300 text-xl mb-4">
+                {project.category}
+              </p>
               <ul className="text-gray-400 text-md list-disc pl-4 mt-8">
                 {project.description.split("\n").map((line, idx) => (
                   <li key={idx} className="mb-2">
@@ -260,19 +344,21 @@ const { scrollYProgress } = useScroll({
             </div>
           </div>
 
+          {/* Right side: Static image (no scroll-based zoom) */}
           <div className="w-1/2 relative rounded-lg overflow-hidden">
-            <motion.div className="w-full h-full" style={{ scale: imageScale }}>
+            {/* We do NOT apply any transform for scroll-based zoom here */}
+            <div className="w-full h-full">
               <Image
                 src={project.coverImage}
                 alt={project.title}
                 fill
                 className="object-cover"
               />
-            </motion.div>
+            </div>
           </div>
         </div>
 
-        {/* Efek Shiny pada Card */}
+        {/* Shiny Effect on the Card */}
         <motion.div
           initial={{ "--x": "100%", scale: 0.8 } as React.CSSProperties}
           animate={{ "--x": "-100%", scale: 1 } as React.CSSProperties}
@@ -305,4 +391,4 @@ const { scrollYProgress } = useScroll({
       </motion.div>
     </div>
   );
-};
+}

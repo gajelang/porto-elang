@@ -25,10 +25,10 @@ export function ContactSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8 md:mb-12"
         >
-          <h2 className="text-4xl md:text-3xl font-bold mb-4 mx-16">
+          <h2 className="text-5xl md:text-3xl font-bold mb-4 mx-5">
             Tell me about your next project
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 mx-16">
+          <p className="text-lg md:text-xl mx-16">
             Feel free to reach out for collaborations or just a friendly hello.
           </p>
         </motion.div>

@@ -168,7 +168,7 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute inset-0 z-10 h-full"
+        className="absolute inset-0 z-10 h-full hidden md:flex"
       >
         {achievementStyles.map((style, index) => {
           const achievement = achievements[index % achievements.length];
@@ -258,7 +258,7 @@ export function HeroSection() {
         </div>
 
         {/* Title with Text Animation */}
-        <h1 className="text-3xl md:text-8xl font-bold mb-4 md:mb-6 leading-snug">
+        <h1 className="text-6xl md:text-8xl font-bold mb-4 md:mb-6">
           <TypeAnimation
             sequence={[
               "Graphic Designer",

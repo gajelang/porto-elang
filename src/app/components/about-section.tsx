@@ -3,41 +3,45 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Code, Layout, Palette, PenTool } from "lucide-react";
-import { CardStack } from "./CardStack"; // Sesuaikan dengan path yang benar
+import { CardStack } from "./CardStack"; // Adjust import path if needed
 
-// Skills Data for CardStack
+// Skill data for the CardStack
 const skillCards = [
   {
     id: 1,
-    title: "Marketing",
-    subtitle: "Strategy",
-    description: "We help you to create plan for reaching prospective consumers and turning them into customers.",
+    title: "Social Media",
+    subtitle: "Brand Building",
+    description:
+      "Developing strategies and creative content to increase reach and engagement on social media platforms.",
     icon: <Palette className="w-8 h-8 text-primary" />,
   },
   {
     id: 2,
     title: "Web Development",
     subtitle: "Frontend & Backend",
-    description: "Building responsive and scalable web applications.",
+    description:
+      "Building modern, responsive, and high-performance websites using technologies like Next.js, Tailwind CSS, etc.",
     icon: <Code className="w-8 h-8 text-primary" />,
   },
   {
     id: 3,
     title: "UI/UX Design",
-    subtitle: "User Experience",
-    description: "Designing intuitive and user-friendly interfaces.",
+    subtitle: "User-Centered Approach",
+    description:
+      "Designing intuitive interfaces that prioritize user experience across various platforms.",
     icon: <Layout className="w-8 h-8 text-primary" />,
   },
   {
     id: 4,
     title: "Content Creation",
-    subtitle: "Digital Media",
-    description: "Crafting engaging content for social media and websites.",
+    subtitle: "Engaging Content",
+    description:
+      "Producing visually appealing and narrative-driven content for multiple digital purposes.",
     icon: <PenTool className="w-8 h-8 text-primary" />,
   },
 ];
 
-// Tools Data
+// Tools data
 const tools = [
   {
     name: "Adobe Photoshop",
@@ -81,7 +85,7 @@ export function AboutSection() {
   return (
     <section id="about" className="py-16 md:py-20 px-8">
       <div className="container mx-auto">
-        {/* Header Section */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,7 +93,9 @@ export function AboutSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8 md:mb-12"
         >
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">About Me</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+            About Me
+          </h2>
           <div className="w-16 md:w-20 h-0.5 md:h-1 bg-primary mx-auto" />
         </motion.div>
 
@@ -113,13 +119,13 @@ export function AboutSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl md:text-6xl font-bold">Hi, I&apos;m Elang</h3>
+              <h3 className="text-3xl md:text-6xl font-bold">Hi, I'm Elang</h3>
             </div>
 
             <p className="text-center md:text-left text-sm md:text-base mb-6">
-              I&apos;m a passionate developer and designer with over 5 years of experience in creating 
-              beautiful and functional digital experiences. Specializing in social media design, graphic design, web development, 
-              UI/UX design, and engaging interfaces!
+              I'm a passionate developer and designer with over 5 years of
+              experience creating engaging and functional digital experiences.
+              Here are some of my primary skills:
             </p>
           </motion.div>
 
@@ -137,9 +143,11 @@ export function AboutSection() {
 
         {/* Tools Section */}
         <div className="mt-8 md:mt-12">
-          <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 text-center md:text-left">Tools I Use</h3>
-          
-          {/* Mobile: Grid Layout */}
+          <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 text-center md:text-left">
+            Tools I Use
+          </h3>
+
+          {/* Mobile Grid Layout */}
           <div className="md:hidden grid grid-cols-3 sm:grid-cols-4 gap-4">
             {tools.map((tool, index) => (
               <div key={index} className="flex flex-col items-center p-2">
@@ -148,7 +156,7 @@ export function AboutSection() {
                   alt={tool.name}
                   width={40}
                   height={40}
-                  className="w-10 h-10 md:w-12 md:h-12 object-contain"
+                  className="w-10 h-10 object-contain"
                 />
                 <span className="text-xs text-center mt-2">{tool.name}</span>
               </div>
@@ -157,11 +165,9 @@ export function AboutSection() {
 
           {/* Desktop: Marquee Layout */}
           <div className="hidden md:block overflow-hidden py-4">
-            <motion.div 
+            <motion.div
               className="flex gap-x-8"
-              animate={{
-                x: ["0%", "-100%"],
-              }}
+              animate={{ x: ["0%", "-100%"] }}
               transition={{
                 repeat: Infinity,
                 duration: 40,
@@ -169,8 +175,8 @@ export function AboutSection() {
               }}
             >
               {[...tools, ...tools].map((tool, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="flex items-center gap-2 shrink-0 pr-8 border-r border-muted"
                 >
                   <Image
