@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   motion,
   useTransform,
@@ -405,9 +405,9 @@ export function PortfolioSection() {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="bg-black w-full mx-auto rounded-xl p-4 relative overflow-y-auto"
-                // Tidak menetapkan properti height agar container menyesuaikan konten dan bisa discroll jika perlu
+                // Container tanpa properti height tetap, sehingga menyesuaikan konten
                 style={{ maxWidth: "720px", maxHeight: "90vh", margin: "1rem" }}
-                onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
               >
                 {/* Close Button */}
                 <button
