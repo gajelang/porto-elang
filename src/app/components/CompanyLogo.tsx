@@ -135,7 +135,7 @@ export function CompanyLogo() {
   return (
     <div className="py-12 bg-background relative">
       <div className="container mx-auto px-2 md:px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-white">
           Professional Journey
         </h2>
         
@@ -178,7 +178,7 @@ export function CompanyLogo() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedCompany(null)}
-                className="absolute top-2 right-2 md:top-4 md:right-4 text-foreground/50 hover:text-foreground"
+                className="absolute top-2 right-2 md:top-4 md:right-4 text-white hover:text-white"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -200,29 +200,29 @@ export function CompanyLogo() {
 
                 {/* Position Info */}
                 <div className="space-y-1 md:space-y-2">
-                  <h3 className="text-lg md:text-2xl font-bold">
+                  <h3 className="text-lg md:text-2xl font-bold text-white">
                     {companyData.position}
                   </h3>
-                  <p className="text-primary font-medium text-sm md:text-base">
+                  <p className="text-white font-medium text-sm md:text-base">
                     {selectedCompany}
                   </p>
-                  <p className="text-xs md:text-sm text-foreground/80">
+                  <p className="text-xs md:text-sm text-white">
                     {companyData.duration}
                   </p>
-                  <p className="text-xs md:text-sm text-foreground/70">
+                  <p className="text-xs md:text-sm text-white">
                     {companyData.type} · {companyData.location}
                   </p>
                 </div>
                 {/* Achievements */}
                 <div className="space-y-2 md:space-y-3 w-full">
-                  <h4 className="font-semibold text-base md:text-lg">
+                  <h4 className="font-semibold text-base md:text-lg text-white">
                     Key Achievements:
                   </h4>
-                  <ul className="list-disc pl-4 md:pl-6 space-y-1 md:space-y-2 text-xs md:text-sm">
+                  <ul className="list-disc pl-4 md:pl-6 space-y-1 md:space-y-2 text-xs md:text-sm text-white">
                     {companyData.achievements.map((achievement, i) => (
                       <li 
                         key={i} 
-                        className="text-foreground/80 hyphens-auto overflow-wrap-break-word"
+                        className="hyphens-auto overflow-wrap-break-word text-white"
                       >
                         {achievement}
                       </li>

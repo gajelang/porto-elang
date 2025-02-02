@@ -13,7 +13,7 @@ const skillCards = [
     subtitle: "Brand Building",
     description:
       "Developing strategies and creative content to increase reach and engagement on social media platforms.",
-    icon: <Palette className="w-8 h-8 text-primary" />,
+    icon: <Palette className="w-8 h-8 text-white" />, // changed from text-primary
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const skillCards = [
     subtitle: "Frontend & Backend",
     description:
       "Building modern, responsive, and high-performance websites using technologies like Next.js, Tailwind CSS, etc.",
-    icon: <Code className="w-8 h-8 text-primary" />,
+    icon: <Code className="w-8 h-8 text-white" />, // changed from text-primary
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const skillCards = [
     subtitle: "User-Centered Approach",
     description:
       "Designing intuitive interfaces that prioritize user experience across various platforms.",
-    icon: <Layout className="w-8 h-8 text-primary" />,
+    icon: <Layout className="w-8 h-8 text-white" />, // changed from text-primary
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ const skillCards = [
     subtitle: "Engaging Content",
     description:
       "Producing visually appealing and narrative-driven content for multiple digital purposes.",
-    icon: <PenTool className="w-8 h-8 text-primary" />,
+    icon: <PenTool className="w-8 h-8 text-white" />, // changed from text-primary
   },
 ];
 
@@ -93,7 +93,7 @@ export function AboutSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8 md:mb-12"
         >
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-white">
             About Me
           </h2>
           <div className="w-16 md:w-20 h-0.5 md:h-1 bg-primary mx-auto" />
@@ -119,11 +119,13 @@ export function AboutSection() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-3xl md:text-6xl font-bold">Hi, I&apos;m Elang</h3>
+              <h3 className="text-3xl md:text-6xl font-bold text-white">
+                Hi, I&apos;m Elang
+              </h3>
             </div>
 
-            <p className="text-center md:text-left text-sm md:text-base mb-6">
-            I&apos;m a passionate developer and designer with over 5 years of experience creating engaging and functional digital experiences.
+            <p className="text-center md:text-left text-sm md:text-base mb-6 text-white">
+              I&apos;m a passionate developer and designer with over 5 years of experience creating engaging and functional digital experiences.
             </p>
           </motion.div>
 
@@ -141,7 +143,7 @@ export function AboutSection() {
 
         {/* Tools Section */}
         <div className="mt-8 md:mt-12">
-          <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 text-center md:text-left">
+          <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 text-center md:text-left text-white">
             Tools I Use
           </h3>
 
@@ -156,7 +158,9 @@ export function AboutSection() {
                   height={40}
                   className="w-10 h-10 object-contain"
                 />
-                <span className="text-xs text-center mt-2">{tool.name}</span>
+                <span className="text-xs text-center mt-2 text-white">
+                  {tool.name}
+                </span>
               </div>
             ))}
           </div>
@@ -184,7 +188,7 @@ export function AboutSection() {
                     height={32}
                     className="w-8 h-8 object-contain"
                   />
-                  <span className="text-base font-medium whitespace-nowrap">
+                  <span className="text-base font-medium whitespace-nowrap text-white">
                     {tool.name}
                   </span>
                 </div>

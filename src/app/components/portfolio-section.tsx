@@ -31,8 +31,7 @@ function AnimatedTitle({
   const containerRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
-  const elements =
-    animateBy === "words" ? text.split(" ") : text.split("");
+  const elements = animateBy === "words" ? text.split(" ") : text.split("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,10 +41,7 @@ function AnimatedTitle({
           observer.unobserve(entry.target);
         }
       },
-      {
-        threshold,
-        rootMargin,
-      }
+      { threshold, rootMargin }
     );
     if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
@@ -112,8 +108,8 @@ const projects: Project[] = [
     coverImage: "/porto/scov.png",
     images: ["/porto/s1.jpg", "/porto/s2.jpg", "/porto/s3.jpg", "/porto/s4.jpg"],
     description: `Created high-quality visuals for a shoe brand's promotional campaign.
-      Highlighted product features with realistic and eye-catching imagery.
-      Boosted sales and engagement through social media and e-commerce platforms.`,
+Highlighted product features with realistic and eye-catching imagery.
+Boosted sales and engagement through social media and e-commerce platforms.`,
     technologies: ["Adobe Photoshop", "Adobe Illustrator"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -125,7 +121,7 @@ const projects: Project[] = [
     coverImage: "/porto/CCOV.png",
     images: ["/porto/c1.jpg", "/porto/c3.jpg", "/porto/c4.jpg", "/porto/camp1.jpg"],
     description: `Designed monthly campaign posters to promote events and increase participation.
-    Used bold typography and vibrant colors to create impactful visuals.`,
+Used bold typography and vibrant colors to create impactful visuals.`,
     technologies: ["Adobe Photoshop", "Adobe Illustrator"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -137,7 +133,7 @@ const projects: Project[] = [
     coverImage: "/porto/MOCOV.png",
     images: ["/img/mo1.png", "/img/mo2.png"],
     description: `Designed a modern and intuitive mobile interface for a fitness tracking app.
-    Focused on seamless navigation and clear visual hierarchy.`,
+Focused on seamless navigation and clear visual hierarchy.`,
     technologies: ["Figma"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -149,7 +145,7 @@ const projects: Project[] = [
     coverImage: "/porto/fe--cov.png",
     images: ["/porto/we1.png", "/porto/wfe.png"],
     description: `Developed a responsive and interactive front-end for a corporate website.
-    Utilized HTML, CSS, Tailwind CSS, and Next.js for optimal performance.`,
+Utilized HTML, CSS, Tailwind CSS, and Next.js for optimal performance.`,
     technologies: ["HTML", "CSS", "Tailwind CSS", "Next.js"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -159,9 +155,16 @@ const projects: Project[] = [
     title: "Instagram Content Creation",
     category: "Social Media",
     coverImage: "/porto/ICO.png",
-    images: ["/porto/o1.jpg", "/porto/o2.jpg", "/porto/o3.jpg", "/porto/o4.jpg", "/porto/o5.jpg", "/porto/o6.jpg"],
+    images: [
+      "/porto/o1.jpg",
+      "/porto/o2.jpg",
+      "/porto/o3.jpg",
+      "/porto/o4.jpg",
+      "/porto/o5.jpg",
+      "/porto/o6.jpg",
+    ],
     description: `Created engaging Instagram content to boost brand awareness and follower growth.
-    Produced high-quality graphics and animations using Canva and Adobe Photoshop.`,
+Produced high-quality graphics and animations using Canva and Adobe Photoshop.`,
     technologies: ["Canva", "Adobe Photoshop"],
     demoUrl: "#",
     sourceUrl: "#",
@@ -173,8 +176,31 @@ const projects: Project[] = [
 ---------------------------------------- */
 export function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedFullImage, setSelectedFullImage] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  // For the scroll-based animation
+  // Deteksi viewport mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Nonaktifkan scroll pada body ketika modal full preview terbuka
+  useEffect(() => {
+    if (selectedFullImage) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedFullImage]);
+
+  // Untuk animasi scroll (desktop)
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef as React.RefObject<HTMLElement>,
@@ -211,7 +237,7 @@ export function PortfolioSection() {
           <div className="w-20 bg-primary mx-auto" />
         </motion.div>
 
-        {/* Mobile View */}
+        {/* Mobile View Cards */}
         <div className="md:hidden">
           <div className="relative h-[400px]">
             {projects.map((project, index) => (
@@ -227,9 +253,7 @@ export function PortfolioSection() {
               >
                 <div
                   className="relative h-full w-full rounded-lg overflow-hidden cursor-pointer"
-                  onClick={() => {
-                    // setSelectedProject(project);
-                  }}
+                  onClick={() => setSelectedProject(project)}
                 >
                   <Image
                     src={project.coverImage}
@@ -239,15 +263,16 @@ export function PortfolioSection() {
                   />
                   <div className="absolute inset-0 bg-black/50 flex items-end p-4">
                     <div>
-                      <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                      <p className="text-gray-300 text-sm">{project.category}</p>
+                      <h3 className="text-xl font-bold text-white">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm text-white">{project.category}</p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
-
           {/* Mobile Navigation */}
           <div className="flex justify-center gap-4 mt-6">
             <button onClick={handlePrev} className="p-2 rounded-full flex">
@@ -262,8 +287,6 @@ export function PortfolioSection() {
         {/* Desktop Card Stack */}
         <div className="hidden md:block">
           {projects.map((project, i) => {
-            // The overall card scale changes, but
-            // we remove the image's scroll-based zoom
             const targetScale = 1 - (projects.length - i) * 0.05;
             return (
               <Card
@@ -273,14 +296,306 @@ export function PortfolioSection() {
                 progress={scrollYProgress}
                 range={[i * 0.25, 1]}
                 targetScale={targetScale}
-                onClick={() => {
-                  // setSelectedProject(project);
-                }}
+                onClick={() => setSelectedProject(project)}
               />
             );
           })}
         </div>
       </div>
+
+      {/* Project Modal */}
+      {selectedProject && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={() => setSelectedProject(null)}
+        >
+          {isMobile ? (
+            // Mobile: Modal ditampilkan di tengah
+            <div
+              className="fixed inset-0 flex items-center justify-center px-4 py-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-black w-full mx-auto rounded-xl p-4 relative overflow-y-auto"
+                style={{ maxWidth: "720px", maxHeight: "90vh", margin: "1rem" }}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedProject(null);
+                  }}
+                  className="absolute top-2 right-2 text-white z-10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                {/* Modal Content (Mobile) */}
+                <div className="flex flex-col gap-4 overflow-y-auto pt-8">
+                  <h3 className="text-2xl font-bold text-white">
+                    {selectedProject.title}
+                  </h3>
+                  <p className="text-lg text-white">
+                    {selectedProject.category}
+                  </p>
+                  <p className="text-white whitespace-pre-line">
+                    {selectedProject.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs bg-gray-800 rounded-full text-white"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  {/* Thumbnail Grid with overlay label */}
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedProject.images.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className="w-full h-32 relative cursor-pointer"
+                        onClick={() => setSelectedFullImage(img)}
+                      >
+                        <Image
+                          src={img}
+                          alt={`${selectedProject.title} image ${idx + 1}`}
+                          fill
+                          className="object-cover rounded-lg"
+                        />
+                        <span className="absolute bottom-1 right-1 text-xs text-white bg-black/50 px-1 rounded">
+                          click for full preview
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          ) : (
+            // Desktop: Modal ditampilkan di tengah
+            <div
+              className="fixed inset-0 flex items-center justify-center px-4"
+              onClick={() => setSelectedProject(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="bg-black w-full mx-auto rounded-xl p-4 relative overflow-y-auto"
+                // Tidak menetapkan properti height agar container menyesuaikan konten dan bisa discroll jika perlu
+                style={{ maxWidth: "720px", maxHeight: "90vh", margin: "1rem" }}
+                onClick={(e: { stopPropagation: () => any; }) => e.stopPropagation()}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedProject(null);
+                  }}
+                  className="absolute top-2 right-2 text-white z-10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                {/* Modal Content (Desktop) */}
+                <div className="flex flex-col gap-4 overflow-y-auto">
+                  <h3 className="text-2xl font-bold text-white">
+                    {selectedProject.title}
+                  </h3>
+                  <p className="text-lg text-white">
+                    {selectedProject.category}
+                  </p>
+                  <p className="text-white whitespace-pre-line">
+                    {selectedProject.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs bg-gray-800 rounded-full text-white"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  {/* Thumbnail Grid with overlay label */}
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedProject.images.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className="w-full h-32 relative cursor-pointer"
+                        onClick={() => setSelectedFullImage(img)}
+                      >
+                        <Image
+                          src={img}
+                          alt={`${selectedProject.title} image ${idx + 1}`}
+                          fill
+                          className="object-cover rounded-lg"
+                        />
+                        <span className="absolute bottom-1 right-1 text-xs text-white bg-black/50 px-1 rounded">
+                          click for full preview
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </motion.div>
+      )}
+
+      {/* Full Image Modal */}
+      {selectedFullImage && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 z-50"
+          onClick={() => setSelectedFullImage(null)}
+        >
+          {isMobile ? (
+            // Mobile: Full Preview Modal dengan scroll aktif pada container gambar
+            <div
+              className="fixed inset-0 flex items-center justify-center px-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-black w-full mx-auto rounded-xl p-4 relative overflow-y-auto"
+                style={{ maxWidth: "720px", maxHeight: "90vh", margin: "1rem" }}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedFullImage(null);
+                  }}
+                  className="absolute top-2 right-2 text-white z-10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                {/* Full Image Container dengan scrollbar */}
+                <div
+                  className="relative w-full overflow-y-scroll"
+                  style={{ height: "calc(90vh - 4rem)" }}
+                >
+                  <Image
+                    src={selectedFullImage}
+                    alt="Full preview"
+                    width={720}
+                    height={1080}
+                    className="w-full h-auto object-contain rounded-lg"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          ) : (
+            // Desktop: Full Preview Modal dengan scroll aktif pada container gambar
+            <div
+              className="fixed inset-0 flex items-center justify-center px-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="bg-black w-full mx-auto rounded-xl p-4 relative overflow-y-auto"
+                style={{ maxWidth: "720px", maxHeight: "90vh", margin: "1rem" }}
+              >
+                {/* Close Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedFullImage(null);
+                  }}
+                  className="absolute top-2 right-2 text-white z-10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                {/* Full Image Container dengan scrollbar */}
+                <div
+                  className="relative w-full overflow-y-scroll"
+                  style={{ height: "calc(90vh - 4rem)" }}
+                >
+                  <Image
+                    src={selectedFullImage}
+                    alt="Full preview"
+                    width={720}
+                    height={1080}
+                    className="w-full h-auto object-contain rounded-lg"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </motion.div>
+      )}
     </section>
   );
 }
@@ -298,10 +613,7 @@ interface CardProps {
 }
 
 function Card({ i, project, progress, range, targetScale, onClick }: CardProps) {
-  // We still use containerRef for sticky scrolling,
-  // but we remove the second useScroll for the image zoom
   const containerRef = useRef<HTMLDivElement>(null);
-  // Instead, just use the card scale from scroll
   const scale = useTransform(progress, range, [1, targetScale]);
 
   return (
@@ -324,10 +636,8 @@ function Card({ i, project, progress, range, targetScale, onClick }: CardProps) 
               <h3 className="text-6xl font-bold text-white mb-4">
                 {project.title}
               </h3>
-              <p className="text-gray-300 text-xl mb-4">
-                {project.category}
-              </p>
-              <ul className="text-gray-400 text-md list-disc pl-4 mt-8">
+              <p className="text-xl mb-4 text-white">{project.category}</p>
+              <ul className="text-md list-disc pl-4 mt-8 text-white">
                 {project.description.split("\n").map((line, idx) => (
                   <li key={idx} className="mb-2">
                     {line.trim()}
@@ -337,16 +647,15 @@ function Card({ i, project, progress, range, targetScale, onClick }: CardProps) 
             </div>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((tech) => (
-                <span key={tech} className="px-3 py-1 text-xs rounded-full">
+                <span key={tech} className="px-3 py-1 text-xs rounded-full text-white">
                   {tech}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Right side: Static image (no scroll-based zoom) */}
+          {/* Right side: Static image */}
           <div className="w-1/2 relative rounded-lg overflow-hidden">
-            {/* We do NOT apply any transform for scroll-based zoom here */}
             <div className="w-full h-full">
               <Image
                 src={project.coverImage}
@@ -381,7 +690,7 @@ function Card({ i, project, progress, range, targetScale, onClick }: CardProps) 
           className="absolute inset-0 z-10 rounded-[inherit]"
         >
           <span
-            className="absolute inset-0 block rounded-[inherit] bg-[linear-gradient(-75deg,hsl(var(--primary)/10%)_calc(var(--x)+20%),hsl(var(--primary)/50%)_calc(var(--x)+25%),hsl(var(--primary)/10%)_calc(var(--x)+100%))] p-px"
+            className="absolute inset-0 block rounded-[inherit] bg-[linear-gradient(-75deg,hsla(var(--primary)/10%)_calc(var(--x)+20%),hsla(var(--primary)/50%)_calc(var(--x)+25%),hsla(var(--primary)/10%)_calc(var(--x)+100%))] p-px"
             style={{
               mask: "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box, linear-gradient(rgb(0,0,0), rgb(0,0,0))",
               maskComposite: "exclude",

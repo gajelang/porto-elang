@@ -15,7 +15,6 @@ import React from "react";
 /* --------------------------------- */
 /* ShinyButton.tsx (inline or imported) */
 /* --------------------------------- */
-// If you have this in a separate file, leave it imported; otherwise, define here.
 interface ShinyButtonProps
   extends Omit<React.HTMLAttributes<HTMLElement>, keyof MotionProps>,
     MotionProps {
@@ -51,25 +50,25 @@ export const ShinyButton = React.forwardRef<
   return (
     <motion.button
       ref={ref}
-      className={`relative rounded-full px-6 py-2 font-medium backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-md hover:shadow-white dark:hover:shadow-white ${className}`}
+      className={`relative rounded-full px-6 py-2 font-medium backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-md hover:shadow-white ${className}`}
       {...animationProps}
       {...props}
     >
       <span
-        className="relative block size-full text-sm uppercase tracking-wide text-[rgb(0,0,0,65%)] dark:font-light dark:text-[rgb(255,255,255,90%)]"
+        className="relative block size-full text-sm uppercase tracking-wide text-white"
         style={{
           maskImage:
-            "linear-gradient(-75deg,hsl(var(--primary)) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),hsl(var(--primary)) calc(var(--x) + 100%))",
+            "linear-gradient(-75deg, white calc(var(--x) + 20%), transparent calc(var(--x) + 30%), white calc(var(--x) + 100%))",
         }}
       >
         {children}
       </span>
       <span
         style={{
-          mask: "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box,linear-gradient(rgb(0,0,0), rgb(0,0,0))",
+          mask: "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box, linear-gradient(rgb(0,0,0), rgb(0,0,0))",
           maskComposite: "exclude",
         }}
-        className="absolute inset-0 z-10 block rounded-[inherit] bg-[linear-gradient(-75deg,hsl(var(--primary)/10%)_calc(var(--x)+20%),hsl(var(--primary)/50%)_calc(var(--x)+25%),hsl(var(--primary)/10%)_calc(var(--x)+100%))] p-px"
+        className="absolute inset-0 z-10 block rounded-[inherit] bg-[linear-gradient(-75deg,rgba(255,255,255,0.1)_calc(var(--x)+20%),rgba(255,255,255,0.5)_calc(var(--x)+25%),rgba(255,255,255,0.1)_calc(var(--x)+100%))] p-px"
       ></span>
     </motion.button>
   );
@@ -81,7 +80,6 @@ ShinyButton.displayName = "ShinyButton";
 /* HeroSection.tsx */
 /* --------------------------------- */
 export function HeroSection() {
-  // These are fine at the top level
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -103,7 +101,7 @@ export function HeroSection() {
     }
   };
 
-  // The achievements and styles
+  // Achievements data
   const achievements = [
     { value: 2880, suffix: "+", label: "Instagram Posts" },
     { value: 144, suffix: "M+", label: "Accounts Reached" },
@@ -114,25 +112,21 @@ export function HeroSection() {
     { value: 10, suffix: "+", label: "UI/UX Project" },
   ];
 
+  // Achievement positions and styles
   const achievementStyles = [
-    // Main achievements
-    { top: "1%", left: "5%", z: 20, scale: 1.3 }, // Instagram Posts
-    { top: "15%", right: "5%", z: 20, scale: 1.2 }, // Accounts Reached
-    { top: "70%", left: "9%", z: 22, scale: 1.1 }, // Years of Experience
-    { top: "83%", right: "20%", z: 22, scale: 1.4 }, // Followers Gained
-    { top: "35%", left: "2%", z: 18, scale: 0.9 }, // Impressions
-    { top: "45%", right: "3%", z: 18, scale: 1.1 }, // Front End Project
-    { top: "80%", left: "29%", z: 18, scale: 1.4 }, // UI/UX Project
-    // Duplicates for depth
-    { top: "22%", left: "20%", z: 5, scale: 0.7 }, // Instagram Posts duplicate
-    { top: "30%", right: "25%", z: 8, scale: 0.6 }, // Accounts Reached duplicate
-    { top: "50%", left: "30%", z: 7, scale: 0.8 }, // Impressions duplicate
+    { top: "1%", left: "5%", z: 20, scale: 1.3 },
+    { top: "15%", right: "5%", z: 20, scale: 1.2 },
+    { top: "70%", left: "9%", z: 22, scale: 1.1 },
+    { top: "83%", right: "20%", z: 22, scale: 1.4 },
+    { top: "35%", left: "2%", z: 18, scale: 0.9 },
+    { top: "45%", right: "3%", z: 18, scale: 1.1 },
+    { top: "80%", left: "29%", z: 18, scale: 1.4 },
+    { top: "22%", left: "20%", z: 5, scale: 0.7 },
+    { top: "30%", right: "25%", z: 8, scale: 0.6 },
+    { top: "50%", left: "30%", z: 7, scale: 0.8 },
   ];
 
-  /* 
-    Instead of using the useMotionValue Hook inside the map, 
-    we use motionValue() which is not a Hook. 
-  */
+  // Create motion values for parallax on each achievement element
   const xValues = achievementStyles.map(() => motionValue(0));
   const yValues = achievementStyles.map(() => motionValue(0));
 
@@ -175,11 +169,10 @@ export function HeroSection() {
           const x = xValues[index];
           const y = yValues[index];
 
-          // Parallax effect callback
+          // Parallax effect on hover
           const handleParallax = (e: React.MouseEvent) => {
-            const speed = style.z * 0.15; // Reduced parallax speed
-            const offsetX =
-              ((e.clientX - window.innerWidth / 2) * speed) / 100;
+            const speed = style.z * 0.15;
+            const offsetX = ((e.clientX - window.innerWidth / 2) * speed) / 100;
             const offsetY =
               ((e.clientY - window.innerHeight / 2) * speed) / 100;
             x.set(offsetX);
@@ -194,7 +187,6 @@ export function HeroSection() {
                 top: style.top,
                 left: style.left,
                 right: style.right,
-                // Here we pass x, y as motion values:
                 x,
                 y,
                 zIndex: style.z,
@@ -214,11 +206,11 @@ export function HeroSection() {
                   transformStyle: "preserve-3d",
                 }}
               >
-                <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
                   <CountUp end={achievement.value} duration={5} />
                   {achievement.suffix}
                 </h2>
-                <p className="text-sm md:text-base text-muted-foreground">
+                <p className="text-sm md:text-base text-white">
                   {achievement.label}
                 </p>
               </motion.div>
@@ -258,7 +250,7 @@ export function HeroSection() {
         </div>
 
         {/* Title with Text Animation */}
-        <h1 className="text-6xl md:text-8xl font-bold mb-4 md:mb-6">
+        <h1 className="text-6xl md:text-8xl font-bold mb-4 md:mb-6 text-white">
           <TypeAnimation
             sequence={[
               "Graphic Designer",
@@ -279,7 +271,7 @@ export function HeroSection() {
         </h1>
 
         {/* Description */}
-        <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 max-w-xs md:max-w-2xl mx-auto">
+        <p className="text-base md:text-xl text-white mb-6 md:mb-8 max-w-xs md:max-w-2xl mx-auto">
           Let me help you solve your digital problems!
         </p>
 

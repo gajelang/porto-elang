@@ -14,23 +14,19 @@ import {
 } from "lucide-react";
 
 /* -------------------------------------------------------------------------------------
-   1) TiltedCard Component (INLINE)
-   ------------------------------------------------------------------------------------- */
+   CUSTOM COMPONENT: TiltedCard
+------------------------------------------------------------------------------------- */
 interface TiltedCardProps {
   containerHeight?: string;
   containerWidth?: string;
-  rotateAmplitude?: number; // e.g. 12 for moderate tilt
-  scaleOnHover?: number;    // e.g. 1.2
+  rotateAmplitude?: number;
+  scaleOnHover?: number;
   showMobileWarning?: boolean;
   showTooltip?: boolean;
   displayOverlayContent?: boolean;
   overlayContent?: ReactNode;
 }
 
-/**
- * Card that tilts on hover, scales up slightly,
- * and transitions background color on hover.
- */
 function TiltedCard({
   containerHeight = "300px",
   containerWidth = "300px",
@@ -48,7 +44,6 @@ function TiltedCard({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Detect mobile
     setIsMobile(window.innerWidth < 768);
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
@@ -57,20 +52,15 @@ function TiltedCard({
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-
-    // Calculate tilt based on mouse position
     const rect = containerRef.current.getBoundingClientRect();
     const cardWidth = rect.width;
     const cardHeight = rect.height;
-
     const centerX = rect.left + cardWidth / 2;
     const centerY = rect.top + cardHeight / 2;
     const mouseX = e.clientX - centerX;
     const mouseY = e.clientY - centerY;
-
     const rotateX = (mouseY / cardHeight) * -rotateAmplitude;
     const rotateY = (mouseX / cardWidth) * rotateAmplitude;
-
     setRotationX(rotateX);
     setRotationY(rotateY);
   };
@@ -98,36 +88,19 @@ function TiltedCard({
       onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
       {showMobileWarning && isMobile && (
-        <div className="absolute z-10 bg-yellow-300 p-2 rounded text-black top-2 text-sm">
+        <div className="absolute z-10 bg-yellow-300 p-2 rounded text-white top-2 text-sm">
           Tilt effect disabled on mobile
         </div>
       )}
 
       <div
         style={{
-          transform: `
-            rotateX(${rotationX}deg)
-            rotateY(${rotationY}deg)
-            scale(${scale})
-          `,
+          transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg) scale(${scale})`,
           transformStyle: "preserve-3d",
           transition: "transform 0.2s ease-out",
         }}
-        className={`
-          relative
-          w-full
-          h-full
-          rounded-lg
-          shadow-md
-          border
-          hover:bg-neutral-900
-          transition-colors
-          duration-300
-          ease-in-out
-          overflow-hidden
-        `}
+        className="relative w-full h-full rounded-lg shadow-md border hover:bg-neutral-900 transition-colors duration-300 ease-in-out overflow-hidden"
       >
-        {/* Overlay Content (text, icons, etc.) */}
         {displayOverlayContent && overlayContent && (
           <div className="absolute inset-0">{overlayContent}</div>
         )}
@@ -143,8 +116,8 @@ function TiltedCard({
 }
 
 /* -------------------------------------------------------------------------------------
-   2) Service Data
-   ------------------------------------------------------------------------------------- */
+   SERVICE DATA
+------------------------------------------------------------------------------------- */
 type Service = {
   icon: React.ComponentType;
   title: string;
@@ -219,8 +192,8 @@ const services: Service[] = [
 ];
 
 /* -------------------------------------------------------------------------------------
-   3) The ServicesSection
-   ------------------------------------------------------------------------------------- */
+   SERVICES SECTION
+------------------------------------------------------------------------------------- */
 export function ServicesSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -237,20 +210,13 @@ export function ServicesSection() {
 
   useEffect(() => {
     if (!isMounted || isMobile) return;
-
     gsap.registerPlugin(ScrollTrigger);
-
     const container = containerRef.current;
     const wrapper = wrapperRef.current;
     if (!container || !wrapper) return;
-
     const cards = Array.from(wrapper.children) as HTMLElement[];
-    const totalWidth = cards.reduce(
-      (acc, card) => acc + card.offsetWidth + 32,
-      0
-    );
+    const totalWidth = cards.reduce((acc, card) => acc + card.offsetWidth + 32, 0);
     wrapper.style.width = `${totalWidth}px`;
-
     const animation = gsap.to(wrapper, {
       x: () => -Math.max(totalWidth - container.offsetWidth, 0),
       ease: "none",
@@ -264,7 +230,6 @@ export function ServicesSection() {
         anticipatePin: 1,
       },
     });
-
     return () => {
       animation.kill();
       ScrollTrigger.getAll().forEach((instance) => instance.kill());
@@ -288,15 +253,14 @@ export function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-3xl md:text-8xl font-bold mb-4">
+          <h2 className="text-3xl md:text-8xl font-bold mb-4 text-white">
             Professional Services
           </h2>
-          <p className="text-base md:text-lg">
+          <p className="text-base md:text-lg text-white">
             Premium solutions for your digital needs
           </p>
         </motion.div>
 
-        {/* If mobile, stack vertically; else do horizontal scroll */}
         {isMobile ? (
           <div className="flex flex-col gap-8 md:hidden">
             {services.map((service, index) => (
@@ -333,24 +297,17 @@ export function ServicesSection() {
   );
 }
 
-/* -------------------------------------------------------------------------------------
-   4) DesktopServiceCard
-   ------------------------------------------------------------------------------------- */
 interface ServiceCardProps {
   service: Service;
   index: number;
   handleContact: (serviceTitle: string) => void;
 }
 
-function DesktopServiceCard({
-  service,
-  index,
-  handleContact,
-}: ServiceCardProps) {
+function DesktopServiceCard({ service, index, handleContact }: ServiceCardProps) {
   return (
     <TiltedCard
       containerWidth="380px"
-      containerHeight="400px"
+      containerHeight="450px"
       rotateAmplitude={12}
       scaleOnHover={1.15}
       showMobileWarning={false}
@@ -364,46 +321,30 @@ function DesktopServiceCard({
           transition={{ duration: 0.5, delay: index * 0.1 }}
           className="flex flex-col h-full p-6 md:p-8"
         >
-          {/* Icon & Title */}
           <div className="text-white">
             <service.icon />
             <h3 className="text-xl md:text-2xl font-bold mt-5">
               {service.title}
             </h3>
           </div>
-
-          {/* Description */}
-          <p className="mt-2 text-sm md:text-base text-neutral-300">
+          <p className="mt-2 text-sm md:text-base text-white">
             {service.description}
           </p>
-
-          {/* Features */}
           <div className="mt-5 flex-1">
             {service.features.map((feature, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-4 text-neutral-100"
-              >
-                <Check className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+              <div key={idx} className="flex items-center gap-4 text-white">
+                <Check className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 <span className="text-sm md:text-base">{feature}</span>
               </div>
             ))}
           </div>
-
-          {/* "Start a Project" Button with "Border Magic" */}
           <div className="mt-4 w-full">
             <button
               onClick={() => handleContact(service.title)}
-              className="relative inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none
-                         focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+              className="relative inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
             >
-              {/* Animated conic gradient spin */}
-              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] 
-                               bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-              
-              {/* Inner content */}
-              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full
-                               bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
                 Start a Project
               </span>
             </button>
@@ -414,14 +355,7 @@ function DesktopServiceCard({
   );
 }
 
-/* -------------------------------------------------------------------------------------
-   5) MobileServiceCard
-   ------------------------------------------------------------------------------------- */
-function MobileServiceCard({
-  service,
-  index,
-  handleContact,
-}: ServiceCardProps) {
+function MobileServiceCard({ service, index, handleContact }: ServiceCardProps) {
   return (
     <TiltedCard
       containerWidth="100%"
@@ -439,43 +373,29 @@ function MobileServiceCard({
           className="flex flex-col h-full p-6"
         >
           <div className="text-white">
-            <service.icon/>
+            <service.icon />
             <h3 className="text-xl font-bold mt-5">{service.title}</h3>
           </div>
-
-          <p className="mt-2 text-sm text-neutral-300">{service.description}</p>
-
+          <p className="mt-2 text-sm text-white">{service.description}</p>
           <div className="flex-1 flex items-center justify-between">
-            {/* Bullet Points */}
             <div className="space-y-4 mr-2">
               {service.features.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 text-neutral-100"
-                >
-                  <Check className="w-4 h-4 text-primary" />
+                <div key={idx} className="flex items-center gap-2 text-white">
+                  <Check className="w-4 h-4 text-white" />
                   <span className="text-sm">{feature}</span>
                 </div>
               ))}
             </div>
-
-            {/* "Start a Project" Button (border magic) */}
           </div>
-            <button
-              onClick={() => handleContact(service.title)}
-              className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] 
-                         focus:outline-none focus:ring-2 focus:ring-slate-400 
-                         focus:ring-offset-2 focus:ring-offset-slate-50"
-            >
-              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] 
-                               bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center 
-                               rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white 
-                               backdrop-blur-3xl"
-              >
-                Start a Project
-              </span>
-            </button>
+          <button
+            onClick={() => handleContact(service.title)}
+            className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          >
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+              Start a Project
+            </span>
+          </button>
         </motion.div>
       }
     />
