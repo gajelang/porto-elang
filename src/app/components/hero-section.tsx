@@ -11,6 +11,13 @@ import { TypeAnimation } from "react-type-animation";
 import CountUp from "react-countup";
 import Image from "next/image";
 import React from "react";
+// Import IBM Plex Mono secara lokal
+import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["700"],
+});
 
 /* --------------------------------- */
 /* ShinyButton.tsx (inline or imported) */
@@ -239,7 +246,7 @@ export function HeroSection() {
           <div className="space-x-1">
             <span className="text-white text-lg md:text-2xl font-normal">
               Hey, I&apos;m{" "}
-            </span>
+ </span>
             <span className="text-white text-xl md:text-3xl font-bold">
               Elang
             </span>
@@ -250,7 +257,7 @@ export function HeroSection() {
         </div>
 
         {/* Title with Text Animation */}
-        <h1 className="text-6xl md:text-8xl font-bold mb-4 md:mb-6 text-white">
+        <h1 className={`text-6xl md:text-8xl font-bold mb-10 md:mb-6 text-white ${spaceGrotesk.className}`}>
           <TypeAnimation
             sequence={[
               "Graphic Designer",
@@ -278,7 +285,7 @@ export function HeroSection() {
         {/* "Let's Connect" Button */}
         <ShinyButton
           onClick={scrollToContact}
-          className="rounded-full px-6 py-2 md:px-14 md:py-3 md:text-1xl hover:shadow-sm hover:shadow-white transition-all ease-in-out"
+          className="rounded-full mt-10 px-6 py-2 md:px-14 md:py-3 md:text-1xl hover:shadow-sm hover:shadow-white transition-all ease-in-out"
           whileHover={{ scale: 1.05 }}
         >
           Let&apos;s Connect

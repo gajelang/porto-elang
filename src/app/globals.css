@@ -12,6 +12,7 @@
   body {
     @apply antialiased;
   }
+
   /* Hanya dark theme yang didefinisikan */
   :root {
     --background: 0 0% 0%; /* Warna latar belakang (hitam) */
@@ -54,32 +55,26 @@
   }
 }
 
-/* Gaya scrollbar untuk browser WebKit (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 6px; /* Lebar scrollbar */
-  height: 6px; /* Tinggi scrollbar (untuk scrollbar horizontal) */
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: transparent; /* Latar belakang track scrollbar */
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3); /* Warna thumb scrollbar dengan opacity kecil */
-  border-radius: 3px; /* Membuat thumb scrollbar sedikit melengkung */
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5); /* Warna thumb scrollbar saat dihover */
+  background: rgba(255, 255, 255, 0.5);
 }
 
-/* Gaya scrollbar untuk Firefox */
 * {
-  scrollbar-width: thin; /* Lebar scrollbar */
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent; /* Warna thumb dan track scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-/* Efek hover pada kartu */
 .card-container {
   position: relative;
   overflow: hidden;
@@ -90,24 +85,24 @@
 }
 
 .card-container:hover .card-content {
-  transform: translateY(-20px); /* Geser konten ke atas saat hover */
+  transform: translateY(-20px);
 }
 
 .view-project-button {
   position: absolute;
-  bottom: -50px; /* Tombol awalnya tersembunyi di bawah kartu */
+  bottom: -50px;
   left: 0;
   right: 0;
   text-align: center;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.8); /* Latar belakang semi-transparan */
+  background-color: rgba(0, 0, 0, 0.8);
   transition: bottom 0.3s ease;
-  opacity: 0; /* Tombol awalnya tidak terlihat */
+  opacity: 0;
 }
 
 .card-container:hover .view-project-button {
-  bottom: 0; /* Munculkan tombol saat hover */
-  opacity: 1; /* Buat tombol terlihat */
+  bottom: 0;
+  opacity: 1;
 }
 
 :root {
@@ -157,7 +152,11 @@ body {
 .animate-marquee {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 20s linear infinite; /* Sesuaikan durasi sesuai kebutuhan */
+  animation: marquee 20s linear infinite;
+}
+
+.direction-reverse {
+  animation-direction: reverse;
 }
 
 @layer utilities {
@@ -190,7 +189,6 @@ body {
   display: none;
 }
 
-/* Gradasi abu-abu untuk aksen */
 .gradient-gray {
   background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(50, 50, 50, 1) 50%, rgba(0, 0, 0, 1) 100%);
 }
